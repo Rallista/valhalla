@@ -12,6 +12,7 @@ function(configure_valhalla_pc)
   set(exec_prefix ${prefix})
   set_variable_from_rel_or_absolute_path("libdir" "$\{prefix\}" "${CMAKE_INSTALL_LIBDIR}")
   set_variable_from_rel_or_absolute_path("includedir" "$\{prefix\}" "${CMAKE_INSTALL_INCLUDEDIR}")
+
   # Build strings of dependencies
   set(LIBS "")
   set(REQUIRES "zlib")
@@ -40,15 +41,16 @@ function(configure_valhalla_pc)
     list(APPEND LIBS_PRIVATE -lole32 -lshell32)
   else()
     if(NOT "-lm" IN_LIST LIBS_PRIVATE)
-        list(APPEND LIBS_PRIVATE -lm)
+      list(APPEND LIBS_PRIVATE -lm)
     endif()
   endif()
+
   list(JOIN LIBS " " LIBS)
   list(JOIN REQUIRES " " REQUIRES)
   list(JOIN LIBS_PRIVATE " " LIBS_PRIVATE)
 
   configure_file(
-    ${CMAKE_SOURCE_DIR}/libvalhalla.pc.in
-    ${CMAKE_BINARY_DIR}/libvalhalla.pc
+    ${VALHALLA_SOURCE_DIR}/libvalhalla.pc.in
+    ${VALHALLA_BUILD_DIR}/libvalhalla.pc
     @ONLY)
 endfunction()
